@@ -1,4 +1,4 @@
-const host = 'http://0.0.0.0:8000';
+//const host = '';
 async function deployHoneypot() {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
