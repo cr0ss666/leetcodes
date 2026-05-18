@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# alts
+COMMANDS=(
+    "ip -o addr show | awk '{print \$2, \$4}'"  # ip command
+    "ifconfig | awk '/inet / {print \$1, \$2}'"  # ifconfig
+    "ip -4 addr show | grep 'inet ' | awk '{print \$2, \$4}'"  # ip IPv4
+    "ip -6 addr show | grep 'inet6 ' | awk '{print \$2, \$4}'"  # ip IPv6
+    "netstat -ie | grep 'inet ' | awk '{print \$1, \$2}'"  # netstat
+    "ss -a | grep 'inet ' | awk '{print \$1, \$2}'"  # ss
+    "hostname -I"  # hostname -I
+)
+
+for cmd in "${COMMANDS[@]}"; do
+    output=$($cmd 2>/dev/null)
+    if [ $? -eq 0 ] && [ -n "$output" ]; then
+        echo "$output"
+        exit 0
+    fi
+done
+
+echo "No suitable command found to get IP info."
