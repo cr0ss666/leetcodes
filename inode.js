@@ -1,4 +1,4 @@
-const host = 'https://fundedgepartners.com/js/';
+//const host = '';
 async function deployHoneypot() {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
