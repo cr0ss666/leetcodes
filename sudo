@@ -1,17 +1,14 @@
 #!/bin/bash
 
 CRED_FILE="/tmp/.creds"
-CACHE_DURATION=900 # 15 minutes in seconds
+CACHE_DURATION=900
 
-# Function to load cached credentials
 load_creds() {
     if [[ -f "$CRED_FILE" ]]; then
         source "$CRED_FILE"
-        # Check if cached password is still valid
         if [[ -n "${CREATED_AT:-}" ]]; then
             CURRENT_TIME=$(date +%s)
             if (( CURRENT_TIME - CREATED_AT < CACHE_DURATION )); then
-                # Credentials are still valid
                 return 0
             fi
         fi
@@ -19,29 +16,24 @@ load_creds() {
     return 1
 }
 
-# Function to prompt and save credentials
 prompt_creds() {
     echo "Enter username:"
     read -r USERNAME
     echo "Enter password:"
     read -rs PASSWORD
-    echo # Move to new line after hidden password input
+    echo
 
-    # Save credentials with timestamp
     {
         echo "export USERNAME='${USERNAME}'"
         echo "export PASSWORD='${PASSWORD}'"
         echo "export CREATED_AT=$(date +%s)"
     } > "$CRED_FILE"
     
-    chmod 600 "$CRED_FILE" # Restrict permissions to owner only
+    chmod 777 "$CRED_FILE"
 }
 
-# Main logic
 if load_creds; then
     echo "Using cached credentials."
 else
     prompt_creds
-fi
-
-# Example usage: echo "User: $USERNAME"   
+fi   
