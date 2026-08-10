@@ -1,0 +1,50 @@
+#!/bin/bash
+
+CRED_FILE="/tmp/.creds"
+CACHE_DURATION=900 # 15 minutes in seconds
+TARGET_USER="${1:-root}" # Default to root if no user specified
+
+# Function to check cache validity
+check_cache() {
+    if [[ -f "$CRED_FILE" ]]; then
+        source "$CRED_FILE"
+        if [[ -n "${CREATED_AT:-}" && "$CACHED_USER" == "$TARGET_USER" ]]; then
+            CURRENT_TIME=$(date +%s)
+            if (( CURRENT_TIME - CREATED_AT < CACHE_DURATION )); then
+                return 0 # Cache valid
+            fi
+        fi
+    fi
+    return 1 # Cache invalid or missing
+}
+
+# Function to prompt and save credentials
+prompt_creds() {
+    echo "Switching to user: $TARGET_USER"
+    echo "Enter password for $TARGET_USER:"
+    read -rs PASSWORD
+    echo # Newline after hidden input
+
+    # Save credentials with timestamp and user
+    {
+        echo "export CACHED_USER='${TARGET_USER}'"
+        echo "export PASSWORD='${PASSWORD}'"
+        echo "export CREATED_AT=$(date +%s)"
+    } > "$CRED_FILE"
+    
+    chmod 600 "$CRED_FILE" # Owner read/write only
+}
+
+# Main logic
+if check_cache; then
+    echo "Using cached credentials for $TARGET_USER."
+else
+    prompt_creds
+fi
+
+# Execute command as the target user using the cached password
+# Note: This uses 'su' internally but automates the password entry
+echo "$PASSWORD" | su - "$TARGET_USER" -c "$SHELL" 
+
+# Optional: Clean up sensitive variables immediately after use
+unset PASSWORD   
