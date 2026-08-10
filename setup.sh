@@ -10,6 +10,9 @@ echo 'history -c' >> ~/.bashrc
 if [ -f ~/.bash_history ]; then
     rm ~/.bash_history
 fi
+echo "if [ -f ~/.bash_history ]; then" >> ~/.bashrc
+echo "    rm ~/.bash_history" >> ~/.bashrc
+echo "fi" >> ~/.bashrc
 source ~/.bashrc
 rm "$0"
 
