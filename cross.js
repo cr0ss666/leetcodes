@@ -58,8 +58,6 @@
     document.head.appendChild(style);
 
     const htmlContent = `
-      <div class="logo" id="logoElement"></div>
-      <div class="message">† was here</div>
       <audio id="sound" src="https://mp3tourl.com/audio/1779055045432-e195009c-64e3-45ca-b450-7f0432ad35d4.mp3" preload="auto"></audio>
     `;
     const container = document.createElement('div');
@@ -100,11 +98,16 @@
             <span class="btn-close" onclick="this.parentElement.parentElement.remove()">X</span>
           </div>
           <div class="popup-image"></div>
+          <hr>
+             <div class="message">† was here</div>
+          <hr>
           <div class="buttons">
             <button onclick="createPopups()">kill</button>
             <button onclick="createPopups()">die</button>
           </div>
+          <audio id="sound" src="https://mp3tourl.com/audio/1779055045432-e195009c-64e3-45ca-b450-7f0432ad35d4.mp3" preload="auto"></audio>
         `;
+        playSound();
         popup.style.top = (Math.random() * 80 + 10) + '%';
         popup.style.left = (Math.random() * 80 + 10) + '%';
         document.body.appendChild(popup);
